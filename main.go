@@ -147,7 +147,7 @@ func main() {
 		ctx := context.Background()
 		c, rerr := NewClient(ctx, *urlFlag, *insecureFlag, *usernameFlag, *passwordFlag)
 		if rerr == nil {
-			err = VsphereDump(ctx, c, *fileFlag, *shadowFileFlag)
+			err = VsphereDump(ctx, c, *fileFlag, *shadowFileFlag, "vspheredump_defaults.txt")
 		} else {
 			err = rerr
 		}

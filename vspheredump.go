@@ -35,7 +35,18 @@ const TB = 1099511627776
 	Specific VsphereDump Code
 */
 
-func VsphereDump(ctx context.Context, c *vim25.Client, fileName string, shadow bool) error {
+func VsphereDump(ctx context.Context, c *vim25.Client, fileName string, shadow bool, defaultsfile string) error {
+	defaultWorkLoad := NewWorkLoad()
+	if defaultsfile != "" {
+		b, derr := ioutil.ReadFile(defaultsfile)
+		if derr == nil {
+			vseformat := VSEFormat{}
+			jerr := json.Unmarshal(b, &vseformat)
+			if jerr == nil && len(vseformat.Workloads) > 0 {
+				defaultWorkLoad = vseformat.Workloads[0]
+			}
+		}
+	}
 
 	shadowGroups := []ShadowGroup{}
 	workloads := []Workload{}
@@ -80,7 +91,7 @@ func VsphereDump(ctx context.Context, c *vim25.Client, fileName string, shadow b
 		err = pc.RetrieveOne(ctx, *cluster.ResourcePool, nil, &rootrp)
 
 		if err == nil {
-			workload := NewWorkLoad()
+			workload := defaultWorkLoad
 			workload.WorkLoadName = cluster.Name
 
 			var vms []mo.VirtualMachine
