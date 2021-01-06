@@ -1,2 +1,4 @@
 .vscode/
 tmp/
+vspheredump_*.txt
+vspheredump_*.txt.shadow.json
