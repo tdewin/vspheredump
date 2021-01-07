@@ -15,6 +15,11 @@ limitations under the License.
 
 */
 
+/*
+	Always use a readonly user when using this program to avoid any issues.
+	The program does not execute any actions so read only should be sufficient and avoids any security issues
+*/
+
 package main
 
 import (
@@ -125,10 +130,10 @@ func main() {
 	var insecureDescription = fmt.Sprintf("Don't verify the server's certificate chain [%s]", envInsecure)
 	var insecureFlag = flag.Bool("insecure", getEnvBool(envInsecure, false), insecureDescription)
 
-	var usernameDescription = fmt.Sprintf("Username [%s]", envUserName)
+	var usernameDescription = fmt.Sprintf("Readonly - Username [%s]", envUserName)
 	var usernameFlag = flag.String("username", getEnvString(envUserName, ""), usernameDescription)
 
-	var passwordDescription = fmt.Sprintf("Username [%s]", envPassword)
+	var passwordDescription = fmt.Sprintf("Readonly - Password [%s]", envPassword)
 	var passwordFlag = flag.String("password", getEnvString(envPassword, ""), passwordDescription)
 
 	var fileName = fmt.Sprintf("vspheredump_%s.txt", time.Now().Format("20060201-150405"))
